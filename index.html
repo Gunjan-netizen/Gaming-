@@ -7,7 +7,6 @@
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.8.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.8.3/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.8.3/firebase-analytics.js"></script>
 </head>
 <body>
     <h2>Submit Your Question</h2>
@@ -39,7 +38,8 @@
         const database = firebase.database();
 
         document.getElementById('questionForm').onsubmit = function(event) {
-            event.preventDefault();
+            event.preventDefault(); // Prevent the default form submission behavior
+
             const name = document.getElementById('name').value;
             const question = document.getElementById('question').value;
 
@@ -49,11 +49,13 @@
                 name: name,
                 question: question
             }).then(() => {
-                document.getElementById('responseMessage').innerText = "Your question has been submitted successfully!";
-                document.getElementById('questionForm').reset();
+                document.getElementById('responseMessage').innerText = "Success"; // Success message
+                document.getElementById('responseMessage').style.color = "green"; // Set message color to green
+                document.getElementById('questionForm').reset(); // Reset the form after submission
             }).catch((error) => {
                 console.error('Error submitting question: ', error);
-                document.getElementById('responseMessage').innerText = "There was an error submitting your question.";
+                document.getElementById('responseMessage').innerText = "Unsuccessful"; // Unsuccessful message
+                document.getElementById('responseMessage').style.color = "red"; // Set message color to red
             });
         };
     </script>
