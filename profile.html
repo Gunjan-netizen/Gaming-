@@ -1,40 +1,88 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>प्रोफाइल पेज</title>
-    <style>
-        body { font-family: Arial, sans-serif; }
-        .container { width: 300px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; }
-    </style>
+    <title>Profile Page</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to CSS file -->
 </head>
 <body>
     <div class="container">
-        <h2>प्रोफाइल</h2>
+        <h2>Profile</h2>
         <p id="userName"></p>
-        <p>वॉलेट बैलेंस: ₹<span id="walletBalance">100</span></p>
-        <button onclick="withdraw()">निकासी</button>
+        <p>Wallet Balance: ₹<span id="walletBalance">100</span></p>
+        <h3>Withdraw Amount:</h3>
+        <input type="number" id="withdrawAmount" placeholder="Enter amount to withdraw" />
+        <button onclick="withdraw()">Withdraw</button>
         <p id="withdrawMessage"></p>
-        <h3>गेम के नियम:</h3>
+
+        <h3>Play Game!</h3>
+        <button id="startButton" onclick="startGame()">Start Game</button>
+        <div id="gameSection" style="display: none;">
+            <p id="timer"></p>
+            <button id="clickButton" style="display: none;" onclick="stopTimer()">Click Here!</button>
+        </div>
+
+        <h3>Game Rules:</h3>
         <p>
-            1. हर उपयोगकर्ता को खेल में 100 अंक मिलेंगे।<br>
-            2. अंक बढ़ाने के लिए खेल में भाग लें।<br>
-            3. एक बार में अधिकतम 5 खेल खेले जा सकते हैं।<br>
-            4. यदि आप 500 अंक प्राप्त करते हैं, तो आप अपने वॉलेट से पैसे निकाल सकते हैं।<br>
-            5. खेल में असामान्य गतिविधियों के लिए खाता निलंबित किया जा सकता है।
+            1. Each user will start with 100 points.<br>
+            2. Participate in the game to earn points.<br>
+            3. A maximum of 5 games can be played at a time.<br>
+            4. If you earn 500 points, you can withdraw money from your wallet.<br>
+            5. Accounts may be suspended for unusual activities.
         </p>
     </div>
 
     <script>
         const params = new URLSearchParams(window.location.search);
         const user = params.get('user');
+        let walletBalance = 100;
 
-        document.getElementById('userName').innerText = "नमस्ते, " + user + "!";
-        
+        document.getElementById('userName').innerText = "Hello, " + user + "!";
+
         function withdraw() {
-            document.getElementById('withdrawMessage').innerText = "आपकी निकासी प्रक्रिया सफल रही।";
-            // यहाँ निकासी के लिए कोड जोड़ें
+            const amount = parseFloat(document.getElementById('withdrawAmount').value);
+            if (amount > walletBalance) {
+                document.getElementById('withdrawMessage').innerText = "Insufficient balance.";
+            } else if (amount <= 0) {
+                document.getElementById('withdrawMessage').innerText = "Enter a valid amount.";
+            } else {
+                walletBalance -= amount;
+                document.getElementById('walletBalance').innerText = walletBalance;
+                document.getElementById('withdrawMessage').innerText = "Withdrawal successful.";
+            }
+        }
+
+        function startGame() {
+            document.getElementById('startButton').style.display = 'none';
+            document.getElementById('gameSection').style.display = 'block';
+
+            let timeLeft = 10;
+            document.getElementById('timer').innerText = "Click within 10 seconds!";
+            document.getElementById('clickButton').style.display = 'none';
+
+            const countdown = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer').innerText = timeLeft + " seconds remaining";
+                if (timeLeft === 0) {
+                    clearInterval(countdown);
+                    document.getElementById('timer').innerText = "Time's up!";
+                    document.getElementById('clickButton').style.display = 'none';
+                }
+            }, 1000);
+
+            setTimeout(() => {
+                document.getElementById('clickButton').style.display = 'block';
+            }, Math.random() * 5000 + 2000); // Button appears between 2 to 7 seconds
+        }
+
+        function stopTimer() {
+            document.getElementById('timer').innerText = "You clicked at the right time!";
+            walletBalance += 350; // User earns ₹350
+            document.getElementById('walletBalance').innerText = walletBalance;
+            document.getElementById('clickButton').style.display = 'none';
+            document.getElementById('startButton').style.display = 'block';
+            document.getElementById('gameSection').style.display = 'none';
         }
     </script>
 </body>
