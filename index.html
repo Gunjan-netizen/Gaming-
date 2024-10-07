@@ -37,6 +37,7 @@
         const app = firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
+        // Form submission event listener
         document.getElementById('questionForm').onsubmit = function(event) {
             event.preventDefault(); // Prevent the default form submission behavior
 
