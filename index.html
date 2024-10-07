@@ -1,25 +1,20 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>गेमिंग लॉगिन</title>
-    <style>
-        body { font-family: Arial, sans-serif; }
-        .container { width: 300px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; }
-        h2 { text-align: center; }
-        .error { color: red; }
-    </style>
+    <title>Gaming Login</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to CSS file -->
 </head>
 <body>
     <div class="container">
-        <h2>लॉगिन</h2>
+        <h2>Login</h2>
         <form id="loginForm">
-            <label for="username">यूज़रनेम:</label><br>
+            <label for="username">Username:</label><br>
             <input type="text" id="username" required><br><br>
-            <label for="password">पासवर्ड:</label><br>
+            <label for="password">Password:</label><br>
             <input type="password" id="password" required><br><br>
-            <button type="submit">लॉगिन</button>
+            <button type="submit">Login</button>
             <p class="error" id="errorMessage"></p>
         </form>
     </div>
@@ -39,10 +34,9 @@
             const password = document.getElementById('password').value;
 
             if (users[username] === password) {
-                // प्रोफाइल पेज पर रीडायरेक्ट करें
-                window.location.href = "profile.html?user=" + username; // प्रोफाइल पेज के लिए URL
+                window.location.href = "profile.html?user=" + username; // Redirect to profile page
             } else {
-                document.getElementById('errorMessage').innerText = "गलत यूज़रनेम या पासवर्ड।";
+                document.getElementById('errorMessage').innerText = "Incorrect username or password.";
             }
         };
     </script>
