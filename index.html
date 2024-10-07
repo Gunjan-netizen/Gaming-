@@ -3,41 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gaming Login</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link to CSS file -->
+    <title>Form Submission</title>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.8.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.8.3/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.8.3/firebase-analytics.js"></script>
 </head>
 <body>
-    <div class="container">
-        <h2>Login</h2>
-        <form id="loginForm">
-            <label for="username">Username:</label><br>
-            <input type="text" id="username" required><br><br>
-            <label for="password">Password:</label><br>
-            <input type="password" id="password" required><br><br>
-            <button type="submit">Login</button>
-            <p class="error" id="errorMessage"></p>
-        </form>
-    </div>
+    <h2>Submit Your Question</h2>
+    <form id="questionForm">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" required><br><br>
+        <label for="question">Question:</label><br>
+        <textarea id="question" required></textarea><br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <p id="responseMessage" style="color: green;"></p>
 
     <script>
-        const users = {
-            user1: "pass1",
-            user2: "pass2",
-            user3: "pass3",
-            user4: "pass4",
-            user5: "pass5"
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCnG7ClFjgBwDdiKWHhAvrAw1bFRj2Fh-Y",
+            authDomain: "website-testing-6752a.firebaseapp.com",
+            databaseURL: "https://website-testing-6752a-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "website-testing-6752a",
+            storageBucket: "website-testing-6752a.appspot.com",
+            messagingSenderId: "103507104097",
+            appId: "1:103507104097:web:b78cc820db1e56c8f27520",
+            measurementId: "G-NJLX13YLN0"
         };
 
-        document.getElementById('loginForm').onsubmit = function(event) {
-            event.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
 
-            if (users[username] === password) {
-                window.location.href = "profile.html?user=" + username; // Redirect to profile page
-            } else {
-                document.getElementById('errorMessage').innerText = "Incorrect username or password.";
-            }
+        document.getElementById('questionForm').onsubmit = function(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const question = document.getElementById('question').value;
+
+            // Store data in Firebase
+            const questionRef = database.ref('questions').push();
+            questionRef.set({
+                name: name,
+                question: question
+            }).then(() => {
+                document.getElementById('responseMessage').innerText = "Your question has been submitted successfully!";
+                document.getElementById('questionForm').reset();
+            }).catch((error) => {
+                console.error('Error submitting question: ', error);
+                document.getElementById('responseMessage').innerText = "There was an error submitting your question.";
+            });
         };
     </script>
 </body>
