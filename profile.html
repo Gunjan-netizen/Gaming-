@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>प्रोफाइल पेज</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { width: 300px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>प्रोफाइल</h2>
+        <p id="userName"></p>
+        <p>वॉलेट बैलेंस: ₹<span id="walletBalance">100</span></p>
+        <button onclick="withdraw()">निकासी</button>
+        <p id="withdrawMessage"></p>
+        <h3>गेम के नियम:</h3>
+        <p>
+            1. हर उपयोगकर्ता को खेल में 100 अंक मिलेंगे।<br>
+            2. अंक बढ़ाने के लिए खेल में भाग लें।<br>
+            3. एक बार में अधिकतम 5 खेल खेले जा सकते हैं।<br>
+            4. यदि आप 500 अंक प्राप्त करते हैं, तो आप अपने वॉलेट से पैसे निकाल सकते हैं।<br>
+            5. खेल में असामान्य गतिविधियों के लिए खाता निलंबित किया जा सकता है।
+        </p>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const user = params.get('user');
+
+        document.getElementById('userName').innerText = "नमस्ते, " + user + "!";
+        
+        function withdraw() {
+            document.getElementById('withdrawMessage').innerText = "आपकी निकासी प्रक्रिया सफल रही।";
+            // यहाँ निकासी के लिए कोड जोड़ें
+        }
+    </script>
+</body>
+</html>
